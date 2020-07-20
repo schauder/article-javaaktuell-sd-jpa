@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -70,6 +72,20 @@ class SpringDataJpaTests {
 		List<Person> wormRidersFromArakeen = persons.findByHobbyOnArrakis("Worm riding");
 
 		assertThat(wormRidersFromArakeen).containsExactly(paul);
+
+	}
+
+	@Test
+	public void executeQBE() {
+
+		persons.saveAll(Arrays.asList(paul, leto));
+
+		Person firstNameL = createPerson("L");
+		Example<Person> example = Example.of(firstNameL, ExampleMatcher.matching().withStringMatcher(ExampleMatcher.StringMatcher.STARTING));
+
+		Iterable<Person> startingWithL = persons.findAll(example);
+
+		assertThat(startingWithL).containsExactly(leto);
 
 	}
 

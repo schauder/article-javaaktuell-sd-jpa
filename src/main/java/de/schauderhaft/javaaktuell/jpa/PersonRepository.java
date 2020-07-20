@@ -16,10 +16,11 @@ package de.schauderhaft.javaaktuell.jpa;/*
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.QueryByExampleExecutor;
 
 import java.util.List;
 
-public interface PersonRepository extends CrudRepository<Person, Long> {
+public interface PersonRepository extends CrudRepository<Person, Long>, QueryByExampleExecutor {
 	Person findByFirstNameIgnoreCase(String name);
 
 	@Query("select p from Person p join p.hobbies h where h.name = :hobby and p.address.city = 'Arakeen'")
