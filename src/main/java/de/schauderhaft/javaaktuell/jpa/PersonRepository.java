@@ -14,15 +14,20 @@ package de.schauderhaft.javaaktuell.jpa;/*
  * limitations under the License.
  */
 
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.QueryByExampleExecutor;
 
 import java.util.List;
 
-public interface PersonRepository extends CrudRepository<Person, Long>, QueryByExampleExecutor {
+public interface PersonRepository extends
+		CrudRepository<Person, Long>, // the default interface to extend
+		QueryByExampleExecutor, // for query by example
+		JpaSpecificationExecutor // for specifications
+{
 	Person findByFirstNameIgnoreCase(String name);
 
-	@Query("select p from Person p join p.hobbies h where h.name = :hobby and p.address.city = 'Arakeen'")
+	@Query("select p from Person p join p.hobbies h where h.name = :hobby and p.address.city = 'Arrakeen'")
 	List<Person> findByHobbyOnArrakis(String hobby);
 }
