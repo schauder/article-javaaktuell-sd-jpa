@@ -3,11 +3,10 @@ package de.schauderhaft.javaaktuell.jpa;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
+import java.util.Arrays;
+
+import static org.assertj.core.api.Assertions.*;
 
 @DataJpaTest
 class SpringDataJpaTests {
@@ -20,14 +19,36 @@ class SpringDataJpaTests {
 	@Test
 	public void executeCrudFunctions(){
 
-		Person p = new Person();
+		Person p = createPerson("Paul");
 
 		persons.save(p);
 
 		Person reloaded = persons.findById(p.id).get();
 
+		assertThat(reloaded).isNotNull();
+
 		persons.delete(reloaded);
 
-		System.out.println("done");
+		assertThat(persons.findAll()).isEmpty();
+	}
+
+
+	@Test
+	public void executeQueryDerivation() {
+
+		persons.saveAll(Arrays.asList(createPerson("Paul"), createPerson("Leto")));
+
+		Person leto = persons.findByFirstNameIgnoreCase("leto");
+
+		assertThat(leto).isNotNull();
+
+	}
+
+	private Person createPerson(String firstName) {
+
+		Person person = new Person();
+		person.firstName = firstName;
+		return person;
+
 	}
 }
