@@ -14,8 +14,14 @@ package de.schauderhaft.javaaktuell.jpa;/*
  * limitations under the License.
  */
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+
+import java.util.List;
 
 public interface PersonRepository extends CrudRepository<Person, Long> {
 	Person findByFirstNameIgnoreCase(String name);
+
+	@Query("select p from Person p join p.hobbies h where h.name = :hobby and p.address.city = 'Arakeen'")
+	List<Person> findByHobbyOnArrakis(String hobby);
 }

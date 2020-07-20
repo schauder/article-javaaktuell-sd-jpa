@@ -69,4 +69,28 @@ public class Person {
 	public void setVersion(long version) {
 		this.version = version;
 	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	public Set<Hobby> getHobbies() {
+		return hobbies;
+	}
+
+	public void setHobbies(Set<Hobby> hobbies) {
+		this.hobbies = hobbies;
+	}
+
+	public Gender getGender() {
+		return gender;
+	}
+
+	public void setGender(Gender gender) {
+		this.gender = gender;
+	}
 }
