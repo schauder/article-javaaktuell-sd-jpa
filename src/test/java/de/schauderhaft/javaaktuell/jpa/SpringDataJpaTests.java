@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.util.Pair;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -105,6 +106,18 @@ class SpringDataJpaTests {
 		Iterable<Person> paulOrLeto = persons.findAll(byName("Leto").or(byCity("Arrakeen")));
 
 		assertThat(paulOrLeto).containsExactlyInAnyOrder(paul, leto);
+
+	}
+
+	@Test
+	public void executeCustomMethod() {
+
+		Pair<Person, Person> kids = persons.spawnKids();
+
+
+		Iterable<Person> all = persons.findAll();
+
+		assertThat(all).extracting(Person::getFirstName).containsExactlyInAnyOrder("Ghanima", "Leto II");
 
 	}
 

@@ -24,7 +24,8 @@ import java.util.List;
 public interface PersonRepository extends
 		CrudRepository<Person, Long>, // the default interface to extend
 		QueryByExampleExecutor, // for query by example
-		JpaSpecificationExecutor // for specifications
+		JpaSpecificationExecutor, // for specifications
+		FamilyRepository
 {
 	Person findByFirstNameIgnoreCase(String name);
 
